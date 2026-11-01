@@ -1,1 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-HK" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S2 賽季開荒全攻略知識庫｜戰略指揮手冊</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: '#ea580c',
+              600: '#c2410c'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* 隱藏橫向捲軸但保留滑動功能 */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    mark.hl {
+      background-color: rgba(245, 158, 11, 0.35);
+      color: #fde68a;
+      padding: 0 2px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+    html:not(.dark) mark.hl {
+      background-color: rgba(245, 158, 11, 0.3);
+      color: #92400e;
+    }
+  </style>
+</head>
+<body class="bg-[#0b0a09] text-zinc-100 light:bg-stone-50 light:text-stone-900 min-h-screen font-sans selection:bg-orange-500/30 selection:text-orange-200 transition-colors duration-200">
 
+  <!-- 頂部固定導航與搜尋列 -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#110f0d]/95 dark:bg-[#110f0d]/95 border-b border-zinc-800/80 transition-colors">
+    <div class="max-w-4xl mx-auto px-4 pt-3 pb-3">
+      <!-- 標題列 -->
+      <div class="flex items-center justify-between gap-3 mb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500 to-amber-700 flex items-center justify-center font-black text-white text-lg shadow-lg shadow-orange-950/50 shrink-0">
+            S2
+          </div>
+          <div>
+            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white">S2 賽季開荒全攻略知識庫</h1>
+            <p class="text-xs text-zinc-400">賽季變化 · 戰法儲備 · 開荒陣容 · 標準流程 · 爆倉技巧</p>
+          </div>
+        </div>
+        <!-- 進度統計膠囊 -->
+        <div class="hidden sm:flex items-center gap-2 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl text-xs text-zinc-300">
+          <span>已讀進度：</span>
+          <span id="progressCount" class="font-bold text-amber-400">0 / 38</span>
+          <button id="resetProgressBtn" title="重置勾選進度" class="ml-1 text-zinc-500 hover:text-red-400 transition">↺</button>
+        </div>
+      </div>
+
+      <!-- 搜尋框與工具按鈕 -->
+      <div class="flex items-center gap-2 mb-3">
+        <div class="relative flex-1">
+          <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">🔍</span>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="搜尋武將、戰法、爆倉、金珠、兵書..."
+            class="w-full pl-9 pr-8 py-2.5 rounded-xl bg-[#1a1816] border border-zinc-700/80 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition"
+          />
+          <button
+            id="clearSearchBtn"
+            class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200 text-xs px-1.5 py-0.5 rounded bg-zinc-800"
+          >✕</button>
+        </div>
+        <button
+          onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+          title="回到頂部"
+          class="w-10 h-10 rounded-xl bg-[#1a1816] border border-zinc-700/80 flex items-center justify-center text-zinc-300 hover:text-white hover:border-zinc-500 transition shrink-0"
+        >
+          ▲
+        </button>
+        <button
+          id="themeToggleBtn"
+          title="切換深淺主題"
+          class="w-10 h-10 rounded-xl bg-[#1a1816] border border-zinc-700/80 flex items-center justify-center text-amber-400 hover:border-amber-500/60 transition shrink-0"
+        >
+          ☀️
+        </button>
+      </div>
+
+      <!-- 分類導航 Tabs -->
+      <div id="categoryTabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5">
+        <!-- 由 JS 動態生成 -->
+      </div>
+    </div>
+  </header>
+
+  <!-- 主內容區 -->
+  <main class="max-w-4xl mx-auto px-4 py-6 space-y-6">
+
+    <!-- Hero 戰略橫幅 -->
+    <section class="rounded-2xl bg-gradient-to-b from-[#21150e] via-[#151210] to-[#121110] border border-amber-900/40 p-5 sm:p-6 shadow-xl">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-950/80 border border-amber-700/50 text-amber-300 text-xs font-semibold mb-3">
+        <span>🔥 黃金48小時新手期 · 全原文無刪減結構化整理</span>
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight mb-3">
+        S2 賽季開荒戰略指揮手冊
+      </h2>
+      <p class="text-sm sm:text-base text-zinc-300 leading-relaxed mb-5">
+        完整收錄 S2 賽季基本變化、事件戰法與兵書系統、金珠與滿紅紫卡儲備、7 大主流開荒陣容配置、劉張開荒 10 大步驟與 6倉/8倉爆倉升 7 本實戰細節。支援即時關鍵字檢索、標籤快篩與進度勾選。
+      </p>
+
+      <!-- 熱門快篩 -->
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-xs font-semibold text-zinc-400 mr-1">熱門快篩：</span>
+        <button data-quick="兵書" class="quick-tag px-3 py-1.5 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700/80 text-xs text-zinc-200 transition flex items-center gap-1.5">
+          <span>📘</span> 兵書系統
+        </button>
+        <button data-quick="金豬" class="quick-tag px-3 py-1.5 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700/80 text-xs text-zinc-200 transition flex items-center gap-1.5">
+          <span>💰</span> 金珠/金豬準備
+        </button>
+        <button data-quick="劉備" class="quick-tag px-3 py-1.5 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700/80 text-xs text-zinc-200 transition flex items-center gap-1.5">
+          <span>🛡️</span> 劉備開荒
+        </button>
+        <button data-quick="夏侯惇" class="quick-tag px-3 py-1.5 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700/80 text-xs text-zinc-200 transition flex items-center gap-1.5">
+          <span>⚔️</span> 夏侯惇單刷
+        </button>
+        <button data-quick="工具人" class="quick-tag px-3 py-1.5 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700/80 text-xs text-zinc-200 transition flex items-center gap-1.5">
+          <span>🧩</span> 工具人配置
+        </button>
+        <button data-quick="爆倉" class="quick-tag px-3 py-1.5 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700/80 text-xs text-zinc-200 transition flex items-center gap-1.5">
+          <span>🏛️</span> 8倉/6倉爆7本
+        </button>
+        <button data-quick="功勛" class="quick-tag px-3 py-1.5 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700/80 text-xs text-zinc-200 transition flex items-center gap-1.5">
+          <span>🎖️</span> S3功勛計算
+        </button>
+      </div>
+    </section>
+
+    <!-- 四大核心數據指標卡 -->
+    <section class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div class="rounded-2xl bg-[#141312] border border-zinc-800/90 p-4">
+        <div class="text-xs text-zinc-400 mb-1">霸業/割據20抽保底</div>
+        <div class="text-xl sm:text-2xl font-black text-amber-400 mb-1">7,960 金珠</div>
+        <div class="text-[11px] text-zinc-500">398/次 · 限時48h · 2橙將</div>
+      </div>
+      <div class="rounded-2xl bg-[#141312] border border-zinc-800/90 p-4">
+        <div class="text-xs text-zinc-400 mb-1">4個10級五星戰法</div>
+        <div class="text-xl sm:text-2xl font-black text-emerald-400 mb-1">37,920 點</div>
+        <div class="text-[11px] text-zinc-500">單個9,480 · 金珠雙倍剛好</div>
+      </div>
+      <div class="rounded-2xl bg-[#141312] border border-zinc-800/90 p-4">
+        <div class="text-xs text-zinc-400 mb-1">橙將兵書完整開啟</div>
+        <div class="text-xl sm:text-2xl font-black text-purple-400 mb-1">10紫卡+9W銅</div>
+        <div class="text-[11px] text-zinc-500">20級先開第一格增減傷</div>
+      </div>
+      <div class="rounded-2xl bg-[#141312] border border-zinc-800/90 p-4">
+        <div class="text-xs text-zinc-400 mb-1">升7級君王殿石頭</div>
+        <div class="text-xl sm:text-2xl font-black text-rose-400 mb-1">28.8 W 石頭</div>
+        <div class="text-[11px] text-zinc-500">8倉(26W)+第10章(4.5W)</div>
+      </div>
+    </section>
+
+    <!-- 篩選狀態提示列 -->
+    <div id="filterStatus" class="hidden items-center justify-between px-4 py-2.5 rounded-xl bg-amber-950/40 border border-amber-800/50 text-xs text-amber-200">
+      <span id="filterStatusText">正在顯示篩選結果</span>
+      <button id="resetFilterBtn" class="underline hover:text-white font-semibold">清除篩選顯示全部</button>
+    </div>
+
+    <!-- 知識卡片列表容器 -->
+    <section id="cardsContainer" class="space-y-4">
+      <!-- 由 JS 動態渲染全部 38 個條目 -->
+    </section>
+
+  </main>
+
+  <!-- 頁尾 -->
+  <footer class="max-w-4xl mx-auto px-4 py-8 border-t border-zinc-800/60 text-center text-xs text-zinc-500">
+    S2 賽季開荒戰略指揮手冊 · 全原文無刪減結構化知識庫 · 支援離線進度保存
+  </footer>
+
+  <script>
+    // 完整無刪減原文資料結構（共 38 筆）
+    const GUIDE_DATA = [
+      // ==================== 一、S2基本變化與注意 (11筆) ====================
+      {
+        id: "s1-1",
+        category: "一、S2基本變化與注意",
+        badge: "規則 1",
+        title: "地圖守軍與48小時黃金新手期",
+        tags: ["新手期", "體力", "戰法點", "偵查"],
+        content: `1，S2賽季地圖和S1一樣，格局和格數沒有變化，土地守軍大幅加強，所以打地記得偵查。新手期48小時內行動一次只要8體力，武將下陣可以返預備兵，洗戰法後戰法點也是100%返還！所以48小時新手期是黃金發育期！`
+      },
+      {
+        id: "s1-2",
+        category: "一、S2基本變化與注意",
+        badge: "規則 2",
+        title: "霸業（割據、歷戰）限時卡包抽卡機制",
+        tags: ["霸業卡包", "金豬", "保底", "郵件"],
+        content: `2，開局可以抽霸業（割據，歷戰）卡包是限時48小時，抽一次398金豬，可以抽20次，10次保底一張橙將，20抽就是保底2個橙將。（霸業卡包和賽季成就卡包開服後需要在郵件裏領，領完後才開始限時48小時，所以你想晚點抽的話，郵件可以晚點再領）。`
+      },
+      {
+        id: "s1-3",
+        category: "一、S2基本變化與注意",
+        badge: "規則 3",
+        title: "重名免費改名卡與小號卡改名技巧",
+        tags: ["改名卡", "玉璧", "合區"],
+        content: `3，重名的系統免費送一張改名卡，如果自己花錢改名需要500玉璧，開服後三天內可以改名。（想免費改名的可以在合區公告出來前在自己上下區建個同名的小號，要記得每天上去玩幾下不然會被系統收回）。`
+      },
+      {
+        id: "s1-4",
+        category: "一、S2基本變化與注意",
+        badge: "規則 4",
+        title: "事件戰法系統與紫藍卡鎖定提醒",
+        tags: ["事件戰法", "紫卡", "藍卡", "鎖定"],
+        content: `4，戰法那裏多了一個事件玩法，消耗指定武將獲得戰法（記得開服前把需要換的事件戰法的紫卡，藍卡都鎖了，避免誤操作給轉化掉了）。`
+      },
+      {
+        id: "s1-5",
+        category: "一、S2基本變化與注意",
+        badge: "規則 5",
+        title: "創建同盟名聲與領地門檻",
+        tags: ["同盟", "名聲", "聲望"],
+        content: `5，初始名聲3000，需要刷500聲望，要達到3500及20塊地才可以創建同盟。`
+      },
+      {
+        id: "s1-6",
+        category: "一、S2基本變化與注意",
+        badge: "規則 6 · 核心",
+        title: "S2兵書系統解鎖條件與20級先開第一格技巧",
+        tags: ["兵書", "紫卡", "銅幣", "滿紅"],
+        content: `6，S2賽季新推出了兵書系統，完成霸業英雄集結（四級城被攻陷開啟），一般48小時新手期結束後當天下午會開啟。武將30級可以解鎖兵書，橙色武將解鎖需要10張紫卡，紫色武將解鎖需2張紫卡，第一本兵書開啟需6w銅幣，第二本需要3w銅幣。所以一個橙將需要10張紫卡和9W銅幣開啟兵書！（S2賽季紫卡需要很大，記得多準備點）\n\nPS：兵書系統開啟後，第一格的兵書選項（作戰、虛實、軍形、九變）在20級就可以開啟，開啟後武將每進階1次可使自身造成的傷害及治療效果提高2%，受到的傷害降低2%。這對於滿紅號來說提升很大，記得練二隊三隊的時候20級就先開啟第一格的兵書選項！`
+      },
+      {
+        id: "s1-7",
+        category: "一、S2基本變化與注意",
+        badge: "規則 7",
+        title: "合區規則、賽季末轉服與跨賽季匹配",
+        tags: ["轉服", "金珠", "合區", "S3"],
+        content: `7，S2一般由2-3個服組成的區，土地資源比較緊張，開荒期就更重要了。賽季末結算前可以花500金珠轉服！可以向跟你一組的服務器間互相轉服（比如S2由100服，101服，102服組成的，那麽賽季末101服的可以申請轉服到102或者100服）如果對方服務器爆滿，那就不能轉服了，所以大家決定好要轉服的話，一開啟轉服就要馬上轉。S2結束後匹配到的服務器會重新分開，S3會重新匹配新的對手（所以S2的對手在S3是不會碰面的，但是S4開始是有可能會重新匹配到一起的，到時候再有仇報仇，有怨報怨）。`
+      },
+      {
+        id: "s1-9",
+        category: "一、S2基本變化與注意",
+        badge: "規則 9",
+        title: "開服活動調整（取消7天沖榜）",
+        tags: ["沖榜", "攻城略地", "一騎當千", "金珠"],
+        content: `9，S2沒有7天沖榜獎勵活動了，攻城略地3000金珠獎勵和一騎當千活動還在。`
+      },
+      {
+        id: "s1-10",
+        category: "一、S2基本變化與注意",
+        badge: "規則 10 · 功勛",
+        title: "S3功勛商店預備與S2功勛折算規則",
+        tags: ["功勛", "戰功", "攻城", "成就"],
+        content: `10，S3賽季開始新增功勛商店（可以用功勛換道具特技，戰法點，糧食）！在S2賽季中，獲取戰功、參與攻城、搶占領土、拆除耐久、完成成就等行為，都將折算成功勛在S3賽季初發放。(功勛沒用完可以累積到下賽季)具體的計算比例由於計算公式比較復雜，目前還未公布，不過根據自身跟盟友提供的數據可以推測一些，10萬戰大概等於100點功勛（超過100萬戰功給了功勛就很少，有可能戰功換功勛的上限就是100萬），10000成就大概等於100點功勛，還有翻地，攻城，拆除耐久值也會增加很多功勛，所以平民玩家戰功不夠的話就盡量多參與攻城活動，多翻翻地，拆拆耐久值。基本功勛至少也有600多。`
+      },
+      {
+        id: "s1-11",
+        category: "一、S2基本變化與注意",
+        badge: "規則 11 · 預算",
+        title: "S2開區需要準備的金豬（金珠）分配",
+        tags: ["金豬", "金珠", "霸業卡包", "雙倍戰法"],
+        content: `11，S2開區需要準備的金豬：\nA，7960金珠用於抽霸業，割據卡包\nB，2000~3000金豬用於雙倍戰法轉化\nC，準備1000左右金豬留著秒升科技建築。`
+      },
+      {
+        id: "s1-12",
+        category: "一、S2基本變化與注意",
+        badge: "規則 12 · 新將",
+        title: "S2賽季新增武將名單",
+        tags: ["新增武將", "司馬懿", "張遼", "龐統", "孫尚香", "陳宮"],
+        content: `12，S2新增武將：司馬懿，張遼，龐統，孫尚香，張纮，馬雲祿，張姬，陳宮。`
+      },
+
+      // ==================== 二、開荒前準備 (4筆) ====================
+      {
+        id: "s2-1",
+        category: "二、開荒前準備",
+        badge: "準備 1",
+        title: "S2開局保留與重置內容詳解",
+        tags: ["保留內容", "進階", "覺醒", "戰法演練"],
+        content: `1，s2開局保留內容詳解：S2賽季更新後，玉璧、金銖、裝備、材料、武將卡、武將進階數(就是滿紅武將的滿紅保留)、覺醒狀態(就是這賽季什麽武將是覺醒的，下賽季這武將還是一樣的覺醒狀態)、演練的戰法、已傳承戰法和演練進度(就是拆解後沒四星武將了，才演練到一半的)。其他的全部清零。`
+      },
+      {
+        id: "s2-2",
+        category: "二、開荒前準備",
+        badge: "準備 2 · 關鍵",
+        title: "武將（戰法點）儲備與推薦鎖定神將名單",
+        tags: ["戰法點", "金豬", "雙倍轉化", "紫卡", "李典", "郭淮", "張寶", "朱儁", "張任"],
+        content: `2，武將（戰法點）儲備：進階滿紅的4星卡和3星卡屯滿！（把換事件戰法跟重要的4星3星武將需要提前鎖定！避免誤操作給轉化掉了！）新賽季開始後金豬轉化戰法點，不管是平民還是土豪都推薦用金豬雙倍轉化！因為你2000~3000金豬就算抽到好卡對開荒幫助也不大，但是沒有足夠的戰法點，開荒進度會落後很多，2個武將帶4個10級戰法和帶4個5-7級戰法的開荒速度是完全不一樣的，下賽季人多地少，更加擁擠，開荒慢人一步很可能會被隊友種地種死。\n\n目前測試了一下，屯滿3星，加一部分4星卡銅幣轉化的戰法點大概在1w7-1w9左右，金珠轉化的戰法點大概在3w4-3w8左右。一個5星10級戰法所需戰法點為9480，4個就是37920，金珠轉換的戰法點差不多剛剛好。（紫卡記得多留點，後面開兵書用）\n\n推薦鎖定武將：李典，郭淮，張寶，朱儁（四星神將），張任（跟袁紹，朱儁搭配，平民群弓組合），以及各種內政武將，事件戰法武將，還有部分器械S的紫卡。`
+      },
+      {
+        id: "s2-4",
+        category: "二、開荒前準備",
+        badge: "準備 4",
+        title: "優秀的 S 級與 A 級開荒技能清單",
+        tags: ["開荒技能", "盛氣淩敵", "橫掃千軍", "陷陣營", "八門", "杯蛇", "奪魄"],
+        content: `4，優秀的開荒技能：\nS級：盛氣淩敵，橫掃千軍，陷陣營，八門，杯蛇，瞋目橫矛，破陣，奪魄，暫避，兵無常勢\nA級：傳檄宣威（新），禦敵屏障，落鳳，縱兵劫掠，坐守孤城，輕勇飛燕，暴斂四方`
+      },
+      {
+        id: "s2-5",
+        category: "二、開荒前準備",
+        badge: "準備 5",
+        title: "裝備、戰馬、寶物儲備與刷野爆率指南",
+        tags: ["裝備", "戰馬", "寶物", "打野", "特技"],
+        content: `5，裝備，戰馬，寶物儲備：好的裝備附加屬性相當於一次進階，特殊的特技裝備更可以提升武將戰鬥力上一個檔次。新賽季裝備（材料）完美保留，所以賽季後期就要開始做充分的準備，打野不能停。（第一賽季一般情況一個月就統一了，後期有大把時間可以打野弄裝備材料，S2賽季後通常會打滿一整個賽季，就沒那麽多時間讓你好好刷野了，所以請珍惜第一賽季的打野時光！）\n\n刷野推薦打8級以上的野怪，八級有50%幾率爆紫色材料，九級野怪100%爆紫色材料，十級野怪100%爆紫色材料5%概率爆裝備圖紙。每天記得訓馬跟尋訪。運氣好一個賽季還是能出幾個極品橙馬跟寶物的。這些土豪跟平民玩家都是一視同仁，只能考慮每天的堅持累積起來。S2武將20級之後立馬可以換上裝備，打五級地將會更加穩健。（註意一點，同一個裝備特技在同一個武將身上只能生效一次，比如武器上有明朗特技，那麽其他部位的裝備上再上明朗特技就會失效！）`
+      },
+
+      // ==================== 三、開荒陣容推薦 (9筆) ====================
+      {
+        id: "s3-0",
+        category: "三、開荒陣容推薦",
+        badge: "陣容總綱",
+        title: "開荒武將分類推薦與「工具人」最新機制定義",
+        tags: ["工具人", "開荒武將", "指揮戰法", "陣法", "兵種", "轉型"],
+        content: `選擇開荒隊伍一要考慮開荒效率，二要後期轉型問題\n\n【開荒武將推薦】\n• 輸出類：趙雲，張飛，甘寧，太史慈，樂進，馬超，夏侯淵，孫堅，夏侯惇\n• 奶媽輔助類：劉備，曹操，華佗，法正，蔡文姬，祝融，左慈\n• 低統禦第三人（工具人）選擇：2禦白卡，李典，張寶，蔡文姬，左慈，華佗，郭淮，黃月英，法正\n\n（工具人的定義是只需要帶一個兵，帶上陣法或兵種技能，死了也沒損失，只是會分攤些經驗）\n（改版後武將死亡後，指揮戰法會失效，不過陣法跟兵種的依然有效）\n\n開荒前請考慮好要轉型的陣容，比如你一隊要用桃園隊，就直接劉備張飛開荒，打算玩奶槍（劉備趙雲諸葛亮）就用劉備趙雲開荒，千萬別開到中途再轉陣容，那樣會非常傷，很拖節奏！`
+      },
+      {
+        id: "s3-1",
+        category: "三、開荒陣容推薦",
+        badge: "陣容 1 · 最穩",
+        title: "劉備 + 張飛（最穩的開荒隊伍，後期轉桃園或五虎）",
+        tags: ["劉備", "張飛", "蔡文姬", "李典", "趙雲", "關羽", "桃園", "工具人"],
+        content: `1，劉備+張飛（最穩的開荒隊伍）\n• 20級前：劉備：盛氣或陷陣，張飛：橫掃千軍\n• 20級後：劉備：盛氣+陷陣（杯蛇，八門） 張飛：臥薪（落鳳，瞋目橫矛）+橫掃\n• 後面打六級地帶3禦武將：蔡文姬＞李典＞張寶（蔡文姬跟李典哪個紅度更高就上哪個）\n  劉備：奪魄+杯蛇。張飛：臥薪（落鳳，瞠目橫矛）+橫掃 蔡文姬：盛氣+陷陣（想省戰法點的話，劉備跟蔡文姬的技能可以調換一下，這樣成型後，劉備的戰法可以不用再調）\n• 後期可以考慮上趙雲或者關羽：\n  - 19禦可以直接上趙雲，開荒穩定性比上關羽好。\n  - 20禦上關羽可以直接成型桃園隊，不過開荒效率會比上趙雲慢。（因為要憋20禦大概會比趙雲晚一天時間成型）\n• 成型後：劉備：盛氣+陷陣。張飛：落鳳+橫掃 趙雲：破陣+臥薪（所向）上關羽就帶白眉+所向`
+      },
+      {
+        id: "s3-2",
+        category: "三、開荒陣容推薦",
+        badge: "陣容 2 · 奶槍",
+        title: "劉備 + 趙雲（效率僅次於劉張，20禦上諸葛亮轉奶槍）",
+        tags: ["劉備", "趙雲", "諸葛亮", "奶槍", "蔡文姬", "李典", "工具人"],
+        content: `2，劉備+趙雲（開荒效率僅次於劉備張飛，後期20禦直接上諸葛亮，轉型奶槍）\n• 20級前：劉備：杯蛇或盛氣 趙雲：橫掃千軍\n• 20級後：劉備：杯蛇+盛氣 趙雲：臥薪嘗膽（落鳳）+橫掃\n• 後面打六級地上3禦武將：蔡文姬＞李典＞張寶（看紅度選擇，滿紅李典跟白板蔡文姬就選李典）\n  - 騎兵配置：劉備：奪魄+杯蛇，趙雲：臥薪嘗膽（落鳳）+橫掃 蔡文姬：盛氣+八門（騎兵）\n  - 盾兵配置：劉備：奪魄+杯蛇，趙雲：臥薪嘗膽（落鳳）+橫掃 李典：盛氣+陷陣（盾兵）\n• 憋到20禦直接上諸葛亮，組成奶槍，前期開荒跟打架都十分兇猛！\n  諸葛亮：奪魄+杯蛇，趙雲：臥薪嘗膽（落鳳）+橫掃，劉備：八門+白毦兵（槍兵）`
+      },
+      {
+        id: "s3-3",
+        category: "三、開荒陣容推薦",
+        badge: "陣容 3 · 雙輸出",
+        title: "趙雲 + 張飛（雙輸出開荒，7本上法正組盾兵）",
+        tags: ["趙雲", "張飛", "法正", "諸葛亮", "關羽", "陷陣營"],
+        content: `3，趙雲+張飛（雙輸出）\n• 20級前：趙雲：橫掃千軍，張飛：盛氣\n• 20級後：趙雲：臥薪（破陣）+杯蛇（趙雲由於1技能智力加成很高，完全可以當個奶媽使用） 張飛：盛氣+橫掃\n• 7本可以上法正，帶陷陣營。組盾兵隊，陷陣營這個技能很適合開荒。\n  趙雲：臥薪（破陣）+杯蛇 張飛：落鳳+橫掃 法正：盛氣+陷陣（盾兵）\n• 19禦後，可以選擇上諸葛亮或關羽。`
+      },
+      {
+        id: "s3-4",
+        category: "三、開荒陣容推薦",
+        badge: "陣容 4 · 吳弓",
+        title: "甘寧 + 太史慈（雙輸出，後期轉型孫尚香/程普吳弓）",
+        tags: ["甘寧", "太史慈", "張寶", "孫尚香", "程普", "吳弓", "工具人"],
+        content: `4，甘寧+太史慈（雙輸出）\n• 20級前：甘寧：橫掃千軍，太史慈：折沖或兵無。\n• 20級後：甘寧：橫掃（輕勇飛燕，萬箭齊發）+避虛 太史慈：折沖+兵無（彎弓+手起刀落）太史慈記得要1速\n• 工具人帶張寶（刮骨+無當）\n• 後期轉型吳弓（上孫尚香，程普，都行）`
+      },
+      {
+        id: "s3-5",
+        category: "三、開荒陣容推薦",
+        badge: "陣容 5 · 群弓",
+        title: "袁紹 + 朱儁（7本上陳宮快速成型打高級地）",
+        tags: ["袁紹", "朱儁", "陳宮", "張寶", "無當飛軍", "工具人"],
+        content: `5，袁紹+朱儁（7本上陳宮）\n• 20級前：袁紹：杯蛇，朱儁：無當飛軍\n• 20級後：袁紹：奪魄（勇者，避虛）+杯蛇，朱儁：無當+整裝待發（坐守，禦敵）\n• 工具人帶張寶（盛氣+八門）\n• 7本上陳宮就成型了，越早成型越早打高級地：\n  袁紹：奪魄（勇者，避虛）+杯蛇，朱儁：無當+整裝待發（坐守，禦敵）\n  陳宮：士別三日+八門（暫避）`
+      },
+      {
+        id: "s3-6",
+        category: "三、開荒陣容推薦",
+        badge: "陣容 6 · 單刷",
+        title: "夏侯惇單刷體系（配馬騰1兵工具人與白板/滿紅開地等級表）",
+        tags: ["夏侯惇", "單刷", "馬騰", "工具人", "魯莽", "後發制人"],
+        content: `6，夏侯惇（單刷）\n由於版本更新，現在武將死亡後指揮戰法會失效，所以現在工具人不適合帶指揮戰法了，可以帶兵種跟陣法。所以S2時候夏侯惇的工具人就是馬騰（帶1個兵）\n• 20級前帶魯莽（合軍聚眾，自愈），20級後帶魯莽+後發制人；馬騰（帶1個兵）帶八門\n• 白板進度：5級開3級地，14級開4級地，22級開5級地，34級10兵營開6級地（記得帶工具人，16級後下工具人開4級地，多點經驗，25級後下工具人開5級）。\n• 滿紅進度：5級開3級地，12級開4級地，20級開5級地，32級10兵營開6（15級下工具人開4，23級下工具人開5），夏侯惇加點推薦加統率。\n• 優缺點與節奏：夏侯惇開荒的缺點是轉型困難，優點是對戰法跟戰法點要求低，省資源，就算翻車了兵損失也不大。我推薦打滿5級地後再打5塊6級地，過1W勢力任務後再打滿5級地。開始憋8本，升統禦。期間可以用夏侯惇低損帶二隊掃蕩5級地練級，二隊也可以扔練兵場練級。這樣是最快速成型隊伍的方法。`
+      },
+      {
+        id: "s3-7",
+        category: "三、開荒陣容推薦",
+        badge: "陣容 7 · 單刷",
+        title: "趙雲單刷體系（援救 + 後發制人）",
+        tags: ["趙雲", "單刷", "援救", "後發制人"],
+        content: `7，趙雲（單刷）\n• 20級前帶援救（等級高了帶後發制人），20級後帶援救+後發制人\n• 趙雲開單刷方式可以參考夏侯惇，只是效率會比夏侯惇差些。`
+      },
+      {
+        id: "s3-8",
+        category: "三、開荒陣容推薦",
+        badge: "陣容補充",
+        title: "其他開荒隊伍組合與後期轉型評估",
+        tags: ["劉備", "曹操", "樂進", "馬超", "太史慈", "孫堅", "單刷"],
+        content: `其他開荒隊伍可以上一個輔助+輸出（劉備+太史慈，劉備+樂進，劉備+馬超。曹操+樂進，曹操+張飛或趙雲，張飛+法正）\n或者雙輸出隊伍（趙雲+樂進，趙雲+太史慈，孫堅+張飛，）\n\n不過要提醒大家無論你用什麽陣容開荒，都要考慮到後期轉型的問題，搭配的時候盡量選擇一個後期轉型的核心來進行搭配陣容。\n還有就是單刷開荒體系（夏侯惇，趙雲），本人是不太推薦單刷，因為單刷對開局打架幫助不大，但是如果沒有其他更好的開荒選擇，那單刷其實也是不錯的選擇，至少開荒進度不會落後太多。`
+      },
+
+      // ==================== 五、詳細開荒步驟 (11筆) ====================
+      {
+        id: "s5-1",
+        category: "五、詳細開荒步驟",
+        badge: "步驟 1",
+        title: "開服10點準時上線：優先主線與鋪路",
+        tags: ["開荒步驟", "主線任務", "鋪路"],
+        content: `以劉備張飛開荒為例：\n1，10點前把自己的雜事弄完，準時上線，不建議馬上抽卡，優先主線任務及鋪路打地。`
+      },
+      {
+        id: "s5-2",
+        category: "五、詳細開荒步驟",
+        badge: "步驟 2",
+        title: "鋪路隊伍配置（善用傭兵省體力）",
+        tags: ["鋪路", "體力"],
+        content: `2，鋪路隊直接使用傭兵即可，不要浪費體力。`
+      },
+      {
+        id: "s5-3",
+        category: "五、詳細開荒步驟",
+        badge: "步驟 3",
+        title: "落州雙倍轉戰法點與不間斷偵查",
+        tags: ["落州", "雙倍轉化", "戰法點", "偵查"],
+        content: `3，落州以後，先三星四星用玉雙倍轉戰法，然後鋪路跟偵查（3級4級地）不要停。`
+      },
+      {
+        id: "s5-4",
+        category: "五、詳細開荒步驟",
+        badge: "步驟 4",
+        title: "10禦開局至5級：劉張分開輪流單刷3級地",
+        tags: ["劉備", "張飛", "10禦", "3級地"],
+        content: `4，由於S2開局是10禦，劉張合體需要13禦，且武將等級為1級，好在下陣是返還預備兵的。劉備和張飛體力不要浪費，起手先打一塊1級地，補滿兵再打一塊2級地。戰法記得拉滿級，兩個步驟做到後這時候已經達到了5級。打平不用管，等時間過了也能打下來。5級後劉備張飛分開輪流單刷3級地（註意找克制的打，減少戰損），劉備帶後發，張飛帶陷陣營或者後發，合軍聚眾。`
+      },
+      {
+        id: "s5-5",
+        category: "五、詳細開荒步驟",
+        badge: "步驟 5",
+        title: "4本13禦劉張合體開4級地與18級開5",
+        tags: ["4級地", "5級地", "劉備", "張飛", "13禦"],
+        content: `5，4本13禦後，劉張合體開始開4。滿紅高紅可8級開4（保守就10級），白板10級開最穩。戰法是劉備帶陷陣或盛氣，張飛帶橫掃千軍。按照難度表打地，偵查不要停！滿紅18級後可以找韓當弓打5級地。`
+      },
+      {
+        id: "s5-6",
+        category: "五、詳細開荒步驟",
+        badge: "步驟 6",
+        title: "20級穿裝備與雙戰法成型（24小時目標7360勢力）",
+        tags: ["20級", "裝備", "策書", "5級地", "7360勢力"],
+        content: `6，20級把最好的裝備給劉備張飛，劉備優先統率跟智力裝備，張飛優先武力統率裝備。20級劉備技能盛氣加陷陣營，碰到克制兵種陷陣營換八門；20級張飛技能臥薪加橫掃，或者落鳳加橫掃千軍，然後慢慢的低級地全換成五級地就行了。策書前期除了過一次任務，後面盡量都留著屯5級以上的地。每天的策書記得一定要買！24小時內目標是打滿5，打滿5級是7360勢力值。`
+      },
+      {
+        id: "s5-7",
+        category: "五、詳細開荒步驟",
+        badge: "步驟 7",
+        title: "8倉庫卡第10章石頭任務爆倉升7本",
+        tags: ["爆倉", "7本", "8倉", "第10章", "石頭"],
+        content: `7，升7本我一般會選擇升8倉庫（8倉庫的儲存上限是26W，7本所需石頭28.8W）爆倉升7本：第10章的石頭獎勵任務先不領（有4.5W石頭獎勵），等石頭滿26W後，再領第10章的石頭任務，就能爆倉升7本了。（更詳細的請看下面爆倉升7本方法）`
+      },
+      {
+        id: "s5-8",
+        category: "五、詳細開荒步驟",
+        badge: "步驟 8",
+        title: "3級兵營帶工具人開6級地（新手期合格線11000勢力）",
+        tags: ["6級地", "工具人", "蔡文姬", "李典", "屯田", "11000勢力"],
+        content: `8，然後帶工具人（蔡文姬或李典）升級或者練兵（升一級練兵場）到20級，兵營3級就可以打六級地了（蔡文姬或李典也要帶滿兵），這時候戰法這樣帶：劉備：奪魄+杯蛇。張飛：臥薪（落鳳，瞠目橫矛）+橫掃 蔡文姬：盛氣+陷陣，看六級地強度表順序打。優先四種資源六級地各打一個，方便屯田。等5兵營後打6戰損就更低了，這時遠射六級地戰損也不會太大，你可以借勢力低的盟友的地打些六級地，盡可能多打，盟友能打時再還，可以這樣選擇，比較遠些的六級地（50格以上），可以先遠射一個五級地，等士氣到80左右掃清附近六級地。新手期結束劉備張飛開荒的要到11000勢力以上才算合格。`
+      },
+      {
+        id: "s5-9",
+        category: "五、詳細開荒步驟",
+        badge: "步驟 9",
+        title: "分城「先建後拆」過任務拿空地技巧",
+        tags: ["分城", "勢力值", "資源州"],
+        content: `9，分城可以先建後拆（拆了可以多出11塊地，可以打更多地更多資源更多勢力值，更早過1W5勢力值任務又多出10塊空地），我推薦的是分城可以等到進資源州再建在主城旁邊，不然分城在出生州被土匪光顧就不能及時保護。`
+      },
+      {
+        id: "s5-10",
+        category: "五、詳細開荒步驟",
+        badge: "步驟 10",
+        title: "憋19禦上趙雲開7級地與40級開8級地",
+        tags: ["19禦", "趙雲", "7級地", "8級地"],
+        content: `10，憋19禦後上趙雲就可以瘋狂開7級地，40級後再考慮開八級地。`
+      },
+      {
+        id: "s5-11",
+        category: "五、詳細開荒步驟",
+        badge: "沖榜技巧",
+        title: "S2沖榜三大進階辦法（雙劉備 / 三將輪流 / 單隊極限）",
+        tags: ["沖榜", "劉備", "趙雲", "張飛"],
+        content: `S2沖榜的小技巧（三種辦法）：\n\n1. 多留一個劉備重頭開始與趙雲一起打三打四打五，這樣就有兩隊可以打五級地，基本上12點前全五級地7360勢力值。不好的地方就是浪費兵升第二個劉備了。\n\n2. 三將輪流開荒：劉備張飛打四級地到13級左右，這時趙雲體力差不多滿了，換劉備趙雲打四級地，打到劉備沒體力，換上趙雲張飛打四級地。後面就這樣輪流打，打到20級開五級地。要按我上面的順序因為劉備張飛最穩打四，劉備趙雲次之，張飛趙雲再次，利用打地的等級差減少戰損。這種方法趙雲19禦可以用，後面可以帶將升級。\n\n3. 就是單隊極限開荒單刷三級地，8-9級開四級地，17-18級開五級地。`
+      },
+
+      // ==================== 六、爆倉升本技巧 (3筆) ====================
+      {
+        id: "s6-1",
+        category: "六、爆倉升本技巧",
+        badge: "6倉爆7本",
+        title: "任務獎勵爆倉升7本：6級倉庫憋8~10章方法",
+        tags: ["爆倉", "6倉", "7本", "石頭", "任務獎勵"],
+        content: `1，任務獎勵爆倉升7本（6倉庫爆7本方法）：\n升7本需要28.8W石頭，6級倉庫只有16W儲存量，正常需要升3級倉庫，倉庫很貴，前期資源緊張，而領任務獎勵可以超出儲存上限！具體操作如下：\n1，完成前7章任務，進第8章後，所有石頭的獎勵不領。\n2，按部就班完成8~10章的任務要求\n3，存滿6級倉庫的16W石頭（實際15.4W就夠了）\n4，一次性領取8~10章任務獎勵（鐵、木、石頭各13.4W，加上倉庫已有15.4W等於28.8W）石頭爆倉直接升7級君王殿。`
+      },
+      {
+        id: "s6-2",
+        category: "六、爆倉升本技巧",
+        badge: "8倉爆7本 · 推薦",
+        title: "8級倉庫爆7本實戰雙情況詳解與木牛流馬補救法",
+        tags: ["爆倉", "8倉", "7本", "試煉", "木馬牛", "石頭"],
+        content: `8倉爆7本方法：第10章的有石頭獎勵的任務先不領，等第二天的試煉任務看看有沒有石頭獎勵：\n\n• 第一種情況：試煉任務沒有石頭的話，那就保留第10章的任務獎勵，等到石頭滿26萬（8級倉庫的儲存量是26W，升7本需要28.8W石頭）就領第10章的全部獎勵，爆倉升7本。\n\n• 第二種情況：試煉任務有石頭獎勵，那麽可以先領第10章的任務獎勵，進入第11章後，不要領取“提升征兵處至4級”的獎勵，等石頭26萬後再一起領取第11章獎勵跟試煉任務獎勵！爆倉升7本。萬一第10章任務被領了，試煉也沒石頭獎勵，等26W石頭後就去找賊寇和木馬牛（木馬牛要留著，先不要打！木馬牛每天8點，14點，20點都會刷新一次），試試運氣能不能刷到石頭（4級征兵處任務先完成，不要領），刷到後就可以領任務升7本，都沒有的話就只能升9倉了。\n\n總結：爆倉方法主要是6倉庫跟8倉庫憋資源爆倉7本兩種方法，由於前期戰損太大，資源經常跟不上，這時候再選擇憋6倉庫的話，反而會影響開荒節奏，而且有紅點老習慣性誤點領了任務獎勵，所以不推薦六倉庫憋本，我正常開荒沖榜都是用8倉庫憋本的方法。`
+      },
+      {
+        id: "s6-3",
+        category: "六、爆倉升本技巧",
+        badge: "8本/9本/帥令壇",
+        title: "爆倉升8本（卡12倉）、9本與3級帥令壇（卡14倉）方法",
+        tags: ["爆倉", "8本", "9本", "帥令壇", "攻城郵件"],
+        content: `2，爆倉升8本9本方法：\n升8本9本就比較簡單隨意了，攻城郵件資源或者試煉的石頭等爆倉領就行了，8本是卡12倉庫，9本是卡14倉庫。平時攻城郵件資源記得不要領哈，留著爆倉！（3級帥令壇也可以卡14倉庫用這方法爆倉）`
+      }
+    ];
+
+    const CATEGORIES = [
+      { name: "全部內容", count: GUIDE_DATA.length },
+      { name: "一、S2基本變化與注意", count: 11 },
+      { name: "二、開荒前準備", count: 4 },
+      { name: "三、開荒陣容推薦", count: 9 },
+      { name: "五、詳細開荒步驟", count: 11 },
+      { name: "六、爆倉升本技巧", count: 3 }
+    ];
+
+    let activeCategory = "全部內容";
+    let searchQuery = "";
+    let checkedMap = JSON.parse(localStorage.getItem("s2_guide_checked") || "{}");
+
+    const categoryTabsEl = document.getElementById("categoryTabs");
+    const cardsContainerEl = document.getElementById("cardsContainer");
+    const searchInputEl = document.getElementById("searchInput");
+    const clearSearchBtnEl = document.getElementById("clearSearchBtn");
+    const filterStatusEl = document.getElementById("filterStatus");
+    const filterStatusTextEl = document.getElementById("filterStatusText");
+    const resetFilterBtnEl = document.getElementById("resetFilterBtn");
+    const progressCountEl = document.getElementById("progressCount");
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[m]));
+    }
+
+    function highlightText(text, query) {
+      const safe = escapeHtml(text);
+      if (!query.trim()) return safe;
+      const escapedQuery = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`(${escapedQuery})`, 'gi');
+      return safe.replace(regex, '<mark class="hl">$1</mark>');
+    }
+
+    function updateProgressUI() {
+      const doneCount = Object.values(checkedMap).filter(Boolean).length;
+      if (progressCountEl) {
+        progressCountEl.textContent = `${doneCount} / ${GUIDE_DATA.length}`;
+      }
+    }
+
+    function renderTabs() {
+      categoryTabsEl.innerHTML = CATEGORIES.map(cat => {
+        const isActive = cat.name === activeCategory;
+        return `
+          <button
+            data-cat="${cat.name}"
+            class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 ${
+              isActive
+                ? 'bg-amber-500 text-black shadow-md shadow-amber-500/20'
+                : 'bg-[#1a1816] text-zinc-300 border border-zinc-800 hover:border-zinc-600'
+            }"
+          >
+            <span>${cat.name}</span>
+            <span class="${isActive ? 'bg-black/20 text-black' : 'bg-zinc-800 text-zinc-400'} px-1.5 py-0.2 rounded-full text-[11px]">${cat.count}</span>
+          </button>
+        `;
+      }).join("");
+
+      document.querySelectorAll(".cat-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          activeCategory = btn.getAttribute("data-cat");
+          renderTabs();
+          renderCards();
+        });
+      });
+    }
+
+    function renderCards() {
+      const q = searchQuery.trim().toLowerCase();
+      const filtered = GUIDE_DATA.filter(item => {
+        const matchCat = activeCategory === "全部內容" || item.category === activeCategory;
+        const matchQuery = !q ||
+          item.title.toLowerCase().includes(q) ||
+          item.content.toLowerCase().includes(q) ||
+          item.tags.some(t => t.toLowerCase().includes(q));
+        return matchCat && matchQuery;
+      });
+
+      if (activeCategory !== "全部內容" || q) {
+        filterStatusEl.classList.remove("hidden");
+        filterStatusEl.classList.add("flex");
+        filterStatusTextEl.textContent = `目前分類：「${activeCategory}」${q ? ` · 搜尋關鍵字：「${searchQuery}」` : ''} — 共找到 ${filtered.length} 筆條目`;
+      } else {
+        filterStatusEl.classList.add("hidden");
+        filterStatusEl.classList.remove("flex");
+      }
+
+      if (filtered.length === 0) {
+        cardsContainerEl.innerHTML = `
+          <div class="rounded-2xl bg-[#141312] border border-zinc-800 p-10 text-center">
+            <div class="text-3xl mb-2">🧐</div>
+            <div class="text-base font-bold text-zinc-200 mb-1">找不到符合的攻略內容</div>
+            <div class="text-xs text-zinc-500">請嘗試更換關鍵字或切換回「全部內容」分類</div>
+          </div>
+        `;
+        return;
+      }
+
+      cardsContainerEl.innerHTML = filtered.map(item => {
+        const isChecked = !!checkedMap[item.id];
+        return `
+          <article class="rounded-2xl bg-[#141312] border ${isChecked ? 'border-emerald-800/60 bg-emerald-950/10' : 'border-zinc-800/90'} p-5 transition hover:border-zinc-700">
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold">
+                  ${escapeHtml(item.badge)}
+                </span>
+                <span class="text-xs text-zinc-400 font-medium">${escapeHtml(item.category)}</span>
+              </div>
+              <label class="flex items-center gap-1.5 cursor-pointer select-none text-xs text-zinc-400 hover:text-zinc-200 shrink-0">
+                <input
+                  type="checkbox"
+                  data-check-id="${item.id}"
+                  ${isChecked ? 'checked' : ''}
+                  class="w-4 h-4 rounded accent-amber-500 cursor-pointer"
+                />
+                <span>${isChecked ? '已掌握' : '標記已讀'}</span>
+              </label>
+            </div>
+
+            <h3 class="text-base sm:text-lg font-bold text-white mb-2.5 ${isChecked ? 'line-through opacity-70' : ''}">
+              ${highlightText(item.title, searchQuery)}
+            </h3>
+
+            <div class="text-sm text-zinc-300 leading-relaxed whitespace-pre-line mb-4">
+              ${highlightText(item.content, searchQuery)}
+            </div>
+
+            <div class="flex flex-wrap items-center gap-1.5 pt-3 border-t border-zinc-800/80">
+              ${item.tags.map(tag => `
+                <button
+                  data-tag="${escapeHtml(tag)}"
+                  class="card-tag text-[11px] px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-amber-300 hover:border-amber-700/50 transition"
+                >
+                  #${highlightText(tag, searchQuery)}
+                </button>
+              `).join("")}
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      // 綁定進度勾選事件
+      document.querySelectorAll("[data-check-id]").forEach(cb => {
+        cb.addEventListener("change", (e) => {
+          const id = e.target.getAttribute("data-check-id");
+          checkedMap[id] = e.target.checked;
+          localStorage.setItem("s2_guide_checked", JSON.stringify(checkedMap));
+          updateProgressUI();
+          renderCards();
+        });
+      });
+
+      // 綁定卡片底部的 hashtag 點擊快篩
+      document.querySelectorAll(".card-tag").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const tag = btn.getAttribute("data-tag");
+          searchInputEl.value = tag;
+          searchQuery = tag;
+          clearSearchBtnEl.classList.remove("hidden");
+          renderCards();
+          window.scrollTo({ top: 280, behavior: 'smooth' });
+        });
+      });
+    }
+
+    // 搜尋框輸入事件
+    searchInputEl.addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      clearSearchBtnEl.classList.toggle("hidden", !searchQuery);
+      renderCards();
+    });
+
+    clearSearchBtnEl.addEventListener("click", () => {
+      searchInputEl.value = "";
+      searchQuery = "";
+      clearSearchBtnEl.classList.add("hidden");
+      renderCards();
+    });
+
+    resetFilterBtnEl.addEventListener("click", () => {
+      activeCategory = "全部內容";
+      searchInputEl.value = "";
+      searchQuery = "";
+      clearSearchBtnEl.classList.add("hidden");
+      renderTabs();
+      renderCards();
+    });
+
+    // 熱門快篩按鈕事件
+    document.querySelectorAll(".quick-tag").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const kw = btn.getAttribute("data-quick");
+        activeCategory = "全部內容";
+        searchInputEl.value = kw;
+        searchQuery = kw;
+        clearSearchBtnEl.classList.remove("hidden");
+        renderTabs();
+        renderCards();
+      });
+    });
+
+    // 重置進度
+    document.getElementById("resetProgressBtn")?.addEventListener("click", () => {
+      checkedMap = {};
+      localStorage.removeItem("s2_guide_checked");
+      updateProgressUI();
+      renderCards();
+    });
+
+    // 主題切換（深色 / 淺色護眼對比）
+    let isDark = true;
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    themeToggleBtn.addEventListener("click", () => {
+      isDark = !isDark;
+      document.body.style.backgroundColor = isDark ? "#0b0a09" : "#f5f5f4";
+      document.body.style.color = isDark ? "#f4f4f5" : "#1c1917";
+      themeToggleBtn.textContent = isDark ? "☀️" : "🌙";
+    });
+
+    // 初始化
+    updateProgressUI();
+    renderTabs();
+    renderCards();
+  </script>
+</body>
+</html>
